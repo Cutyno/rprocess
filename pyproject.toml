@@ -5,14 +5,14 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "rprocess"
 version = "0.1.0"
-description = "A small pure-Python process utility module."
+description = "Incremental file processing with persistent savepoints."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { file = "LICENSE" }
 authors = [
-  { name = "Fabian Benschuh", email = "rporcess@bencado.com" }
+  { name = "Fabian Benschuh", email = "rprocess@bencado.com" }
 ]
-keywords = ["python", "process", "utilities"]
+keywords = ["python", "processing", "incremental", "cache", "savepoint"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
@@ -25,6 +25,13 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Operating System :: OS Independent",
   "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.0.0",
+  "pytest>=8.0.0",
+  "twine>=5.0.0"
 ]
 
 [project.urls]
@@ -40,3 +47,4 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+pythonpath = ["src"]

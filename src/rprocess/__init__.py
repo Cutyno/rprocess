@@ -1,6 +1,6 @@
 """rprocess: small pure-Python process utility helpers."""
 
-from .core import normalize_command
+from .core import glob_rprocessor
 
-__all__ = ["normalize_command"]
+__all__ = ["glob_rprocessor"]
 __version__ = "0.1.0"
