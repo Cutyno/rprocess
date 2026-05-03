@@ -1,6 +1,6 @@
 # rprocess
 
-rprocess provides glob_rprocessor, a utility to process files matched by a glob pattern with persistent savepoints.
+rprocess provides glob_rprocessor and glob_rmprocessor utilities to process files matched by a glob pattern with persistent savepoints. glob_rprocessor processes files sequentially, while glob_rmprocessor uses multiprocessing for concurrent processing.
 
 The savepoint file stores per-file results keyed by content hash. This makes reruns faster when files are unchanged, and supports incremental recovery when interruptions happen.
 
@@ -81,6 +81,43 @@ glob_rprocessor(
 - recursive: enable recursive glob patterns like **.
 - verbose: print progress and savepoint maintenance messages.
 - increment_savepoint: write savepoint after each new file result.
+
+## Parallel Processing with glob_rmprocessor
+
+For improved performance on I/O-bound operations, use `glob_rmprocessor()` which processes files concurrently using Python's `multiprocessing.Pool`:
+
+```python
+from rprocess import glob_rmprocessor
+
+total_chars = glob_rmprocessor(
+	pathname="data/**/*.txt",
+	file_function=parse_file,
+	safepoint_path=".rprocess.savepoint.pkl",
+	cumulative_function=collect,
+	recursive=True,
+	verbose=True,
+)
+```
+
+### API
+
+```python
+glob_rmprocessor(
+	pathname,
+	file_function,
+	safepoint_path,
+	cumulative_function=None,
+	processes=None
+	root_dir=None,
+	dir_fd=None,
+	recursive=False,
+	verbose=False,
+)
+```
+
+Parameters are identical to `glob_rprocessor()`. The key difference is that file processing happens concurrently in worker processes, making it faster for I/O-bound workloads. The savepoint mechanism and caching behavior remain the same.
+The additional parameter `processes` let's you specifiy the number of used workers.
+If processes is None then the number returned by os.process_cpu_count() is used.
 
 ## Development
 
