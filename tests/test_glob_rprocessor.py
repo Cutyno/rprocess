@@ -1,11 +1,14 @@
 from hashlib import sha256
 from pathlib import Path
 from pickle import load
+import sys
 
 import pytest
 
-import rprocess.core as core
 from rprocess import glob_rprocessor
+
+# Get the actual module (not the function) from sys.modules
+core = sys.modules['rprocess.glob_rprocessor']
 
 
 def _collect(result, current):
